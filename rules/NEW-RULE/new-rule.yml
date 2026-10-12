@@ -1,3 +1,9 @@
+# Variable: GEN
+# CG0011
+# Rule: Variable Format = SDTM-specified controlled terminology and format guidelines for variables, when provided
+# FB1701
+# Condition: CDISC published Controlled Terminology indicates that a codelist is non-extensible
+# Rule: A new term not included the CDISC published Controlled Terminology codelist is used
 # verified
 Authorities:
   - Organization: CDISC
