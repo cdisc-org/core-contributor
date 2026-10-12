@@ -179,8 +179,8 @@ Check:
       operator: is_not_substring_of
       value: library_variable_ccode_values
 Core:
-  Id: FDA.SDTMIG.FB1701
-  Status: Draft
+  Id: CORE-002123
+  Status: Published
   Version: '1'
 Description: Raise an error when CDISC Controlled Terminology specifies the codelist as non-extensible and a term not included in the codelist is used.
 Executability: Fully Executable
