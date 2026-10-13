@@ -19,10 +19,10 @@
       ]
     },
     {
-      "dataset": "rs.xpt",
-      "domain": "RS",
+      "dataset": "qs.xpt",
+      "domain": "QS",
       "execution_status": "success",
-      "execution_message": "RSEVAL must not be present.",
+      "execution_message": "QSEVAL must not be present.",
       "number_errors": 1,
       "errors": [
         {
@@ -30,19 +30,11 @@
           "SEQ": null,
           "USUBJID": null,
           "value": {
-            "RSEVAL": null
+            "QSEVAL": "PERSON A"
           },
           "validated": true
         }
       ]
-    },
-    {
-      "dataset": "vs.xpt",
-      "domain": "VS",
-      "execution_status": "skipped",
-      "execution_message": "Rule skipped - doesn't apply to domain for rule id=CORE-000031, dataset=VS",
-      "number_errors": 0,
-      "errors": []
     }
   ]
 }
