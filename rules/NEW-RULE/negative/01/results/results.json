@@ -3,27 +3,29 @@
     {
       "dataset": "rs.xpt",
       "domain": "RS",
-      "execution_status": "execution_error",
-      "execution_message": "rule execution error",
-      "number_errors": 1,
+      "execution_status": "success",
+      "execution_message": "RSEVAL must not be populated for records where RSCAT is populated with values from the Clinical Classification Use Case.",
+      "number_errors": 2,
       "errors": [
         {
-          "error": "Domain is not found in Define XML file",
-          "message": "Domain None is not found in Define XML"
+          "row": 1,
+          "SEQ": 1,
+          "USUBJID": "CDISC001",
+          "value": {
+            "RSEVAL": "PERSON A"
+          },
+          "validated": true
+        },
+        {
+          "row": 4,
+          "SEQ": 4,
+          "USUBJID": "CDISC004",
+          "value": {
+            "RSEVAL": "PERSON B"
+          },
+          "validated": true
         }
       ]
-    }
-  ],
-  "unmatched_validation": [
-    {
-      "value": {
-        "RSEVAL": "PERSON A"
-      }
-    },
-    {
-      "value": {
-        "RSEVAL": "PERSON B"
-      }
     }
   ]
 }
