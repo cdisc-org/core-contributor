@@ -42,8 +42,8 @@ Check:
     - name: RSEVALID
       operator: non_empty
 Core:
-  Id: SDTMIG.CG0660.vlm
-  Status: Draft
+  Id: CORE-002127
+  Status: Published
   Version: '1'
 Description: Raise an error when some records in the RS dataset have RSCAT populated with values from the Clinical Classification Use Case as per the define.xml document but RSEVALID for those RSCAT records is populated.
 Executability: Fully Executable
