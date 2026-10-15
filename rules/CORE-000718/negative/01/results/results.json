@@ -4,7 +4,6 @@
       "dataset": "sm.xpt",
       "domain": "SM",
       "execution_status": "success",
-<<<<<<< HEAD
       "execution_message": "SMSTDTC falls after SMENDTC.",
       "number_errors": 1,
       "errors": [
@@ -19,11 +18,6 @@
           "validated": true
         }
       ]
-=======
-      "execution_message": null,
-      "number_errors": 0,
-      "errors": []
->>>>>>> 7a23340fe8b573115b6c8420de925dcf7f6b75d3
     },
     {
       "dataset": "se.xpt",
