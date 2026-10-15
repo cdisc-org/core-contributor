@@ -38,8 +38,8 @@ Check:
     - name: RSEVAL
       operator: exists
 Core:
-  Id: SDTMIG.CG0659
-  Status: Draft
+  Id: CORE-002124
+  Status: Published
   Version: '1'
 Description: Raise an error when RSCAT is only populated with values from the Clinical Classification Use Case as per the define.xml document, but RSEVAL is present in the RS dataset.
 Executability: Fully Executable
