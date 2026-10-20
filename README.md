@@ -14,7 +14,7 @@ These steps should be sufficient to get you started but are very descriptive. If
 # First-time Local Setup Steps
 
 ***IMPORTANT NOTE*** \
-_You may need your IT support team to install some of the following software for you. In particular, the setup script requires python3.12 to run properly. If you don't have it installed, the script will attempt to install it for you, but this is likely to be blocked by your company settings. If so, you will need to contact IT._
+_You may need your IT support team to install some of the following software for you. In particular, the setup script requires Python 3.12 to run properly. If you don't have it installed, the script will attempt to install it for you, but this is likely to be blocked by your company settings. If so, you will need to contact IT._
 
 **Follow steps 1 - 11 carefully.**
 
@@ -41,11 +41,12 @@ _You may need your IT support team to install some of the following software for
    
 8) This should re-open a new terminal in the repository folder. If this doesn't happen, open a new terminal in VSCode and navigate to the repository folder again.
     
-9) You will need to setup the python environment, which will take a little bit of time. 
+9) You will need to set up the python environment, which will take a little bit of time. 
     - Assuming you are in the core-contributor folder in the VSCode terminal, run one of the following depending on your operating system (ignore messages and warnings): 
         - WINDOWS: `.\setup\windows_setup.bat`
         - MAC: `./setup/bash_setup.sh` 
-    - Windows might prompt you asking if you want to install python - the answer is yes!
+    - Windows might prompt you asking if you want to allow the script to run with administrator privileges and/or to install python - the answer is yes! The setup then continues in a new window - wait until it says `Setup completed successfully!`
+    - MAC: if the installation of the dependencies fails on `psycopg2`, rerun the setup with `./setup/bash_setup.sh --binary`
          
     _***IMPORTANT NOTE***\
     If you start the setup script and stop it midway through, you may get some strange errors when you try to run rules in the future. If you have any doubts, rerun the setup script, and make sure it completes._
@@ -63,7 +64,7 @@ _You may need your IT support team to install some of the following software for
     - There you go! You should now see schema validation in yaml files. If you don't see this behaviour after a few seconds, try restarting VSCode
 
 11) Install the XLSX Editor plugin: 
-    - In the VS Code file explorer, locate the `.vsix` file in the root directory of this repository 
+    - In the VS Code file explorer, locate the `verisian-xlsx-editor-0.0.1.vsix` file in the root directory of this repository 
     - Right-click the file and select "Install Extension VSIX"
 
 **You are now ready with the setup steps and can start with the rule authoring!**
@@ -73,7 +74,7 @@ _You may need your IT support team to install some of the following software for
 **_*IMPORTANT NOTE*_**\
 _In the following section, the exact process to follow with relevant Git commands to be executed in the terminal are described. If in doubt, you can always fall back to this process. However, VSCode integrates with Git very effectively, and so there are intuitive point-and-click alternatives to all of the following commands with only simple configuration required._
 
-_If you'd like to take advantage of this (strongly recommended for at least staging, committing and pushing your changes), please see [supplementary guide](https://docs.google.com/document/d/15ydgj4AqtEnFtlXL-J4DLJV32q_Q71gKn0ucu4tYYQw/edit?tab=t.0#bookmark=id.v2ehj99lxmyr) for extra details and screenshots. \
+_If you'd like to take advantage of this (strongly recommended for at least staging, committing and pushing your changes), please see the [supplementary guide](https://docs.google.com/document/d/15ydgj4AqtEnFtlXL-J4DLJV32q_Q71gKn0ucu4tYYQw/edit?tab=t.0#bookmark=id.v2ehj99lxmyr) for extra details and screenshots. \
 You'll need to run the following commands to get it working: \
 `git config --global user.email "<your-github-email>"` \
 `git config --global user.name "<your-github-username>"`_
@@ -91,12 +92,12 @@ _Don't forget: whenever you type a command, you should be in the core-contributo
 2) Create a new branch to work on your changes, named as such: `<your-name>/<rule-id>/<change>` (eg `richard/CORE-000001/edit`): \
        `git branch <your-branch-name>`
    
-   _Note that only branch names according to following regex are allowed: **^[a-zA-Z]+/(CORE-[0-9]{6}|(CG|FB|TRC)[0-9]{4}[a-z]{1})/(edit|create|delete)$**_
+   _Note that only branch names according to the following regex are allowed: **^[a-zA-Z]+/(CORE-[0-9]{6}|CG[0-9]{4}|FB[0-9]{4}|AD[0-9]{4})/(edit|create|delete)(-[0-9]+)?$**_
 
-      **_*IMPORTANT NOTE*_**\
+   **_*IMPORTANT NOTE*_**\
    _Whenever you create a local branch to work on a rule, ensure that you are on the main branch. If you create a new local branch, when you are already on a local branch, the new branch will branch off the
    local branch and not from main. If you would then want to merge changes from your new local branch, it will merge with the first local branch and not with the main branch. Therefore, ensure to be on the main
-   branch first prior to creating a local branch (git checkout main). Once the local branch exists, you can checkout out to it from any branch._
+   branch first prior to creating a local branch (git checkout main). Once the local branch exists, you can check it out from any branch._
    
 3) Switch to your new branch: \
        `git checkout <your-branch-name>`
@@ -108,15 +109,16 @@ _Step 4 is only applicable in case you want to create a rule for which the folde
 
 4) Initialize your new rule folder structure:
    - In the base directory of the project, activate the virtual environment by running:
-     - WINDOWS: `venv\Scripts\activate`
-     - MAC: `source venv/bin/activate`
+     - WINDOWS: `.\venv\Scripts\activate`
+     - MAC: `source ./venv/bin/activate`
    - Then run the following command in your terminal: \
        `python new-rule.py`
    - It will prompt you a few times.
-     - If the new-rule folder already exists, it will check you definitely want to make a new one. (NOTE: If the empty folder is a leftover from a previous branch, which is likely, you SHOULD run the script and overwrite the folder to make a new one, as this will set-up the template properly for you).
+     - It will ask which rules directory to use (`sdtm` for `rules/`, `adam` for `adam_rules/`), whether the rule is part of a bundled rule structure sharing test cases (for a single new rule, answer `n`) and whether you want the test cases in CSV or XLSX format (the steps below assume XLSX).
+     - If the NEW-RULE folder already exists, it will check you definitely want to make a new one. (NOTE: If the empty folder is a leftover from a previous branch, which is likely, you SHOULD run the script and overwrite the folder to make a new one, as this will set-up the template properly for you).
      - You will also be prompted to enter the number of positive and negative test cases you want to create. Don't worry if you realise you need more later. You can easily add more manually.
-   - This will create a rules/NEW-RULE folder with all necessary subdirectories and template files.
-   - The NEW-RULE folder should NOT be renamed. It will receive its final name after the PR has been approved.
+   - This will create a `rules/NEW-RULE` folder with all necessary subdirectories and template files (eg `new-rule.yml` and `positive/01/data/new-rule-positive-01.xlsx`).
+   - The NEW-RULE folder should NOT be renamed. It will receive its final name after the PR has been merged.
 
 **Write or Edit Rule.**
 
@@ -126,22 +128,23 @@ _Step 4 is only applicable in case you want to create a rule for which the folde
 6) Create test data as desired:
    - Ensure that positive test data are created (= no data issues expected to be flagged for that particular rule).
    - Ensure that negative test data are created (= data issues expected to be flagged for that particular rule).
+   - Each dataset is a separate sheet named after the dataset (eg `cm.xpt`) and listed in the `Datasets` sheet. Row 1 holds the variable names, rows 2 - 4 hold the metadata (label, type, length) and the data starts from row 5. The `Library` sheet holds the standard and version (eg `sdtmig`, `3-4`) the rule is tested against.
    - In addition to creating negative test data, predefined discrepancies should be marked in the negative test data. This will ensure that the validation can be automatically tested based on the expected errors you've indicated upfront.
-   - To mark predefined discrepancies in the negative test data, a validation sheet in the negative test data should be completed
-     - **Error Group**:
-       - Add each error as a new validation group (note that this might not be only a single row - for example if you highlight two cells that will cause a single error, and be outputted as a single error, then you should create TWO rows in the same validation group (ie both in group '1').
+   - To mark predefined discrepancies in the negative test data, highlight each cell causing an error in **yellow** (the test script only looks for yellow highlighting) and complete the `Validation` sheet in the negative test data:
+     - **Error group**:
+       - Add each error as a new validation group (note that this might not be only a single row - for example if you highlight two cells that will cause a single error, and be outputted as a single error, then you should create TWO rows in the same validation group (ie both in group '1')).
        - Create groups using sequential numbers for the validation group column.
-      - **Sheet**: Name of the data sheet with the error e.g. cm.xpt
-      - **Error Level**:
-        - Add 'Record' if it is a normal row error
-        - 'Variable' if it is an error related to an entire column
-        - 'Dataset' if it is an error related to a whole dataset (ie missing ae.xpt sheet or similar).
-      - **Row num**: Provide the row number (using the row count of the excel sheet - note that any variable names will be row 1 and the first row starts from row 5 due to the metadata rows we always have in the sheets).
-      - **Variable**: Provide the variable name (found in the first row of the column) - with the row number this fully identifies the error cell.
-      - **Error Value**:
-        - Finally, copy the error value from the highlighted cell into the 'Error value'.
-        - If the highlighted cell has no value, use '[ABSENT]' to indicate this (including the square brackets).
-   - Repeat for all the highlighted error cells (remembering to group using the 'Error group' column where appropriate) .
+     - **Sheet**: Name of the data sheet with the error e.g. cm.xpt
+     - **Error level**:
+       - Add 'Record' if it is a normal row error
+       - 'Variable' if it is an error related to an entire column
+       - 'Dataset' if it is an error related to a whole dataset (ie missing ae.xpt sheet or similar).
+     - **Row num**: Provide the row number (using the row count of the excel sheet - note that the variable names are in row 1 and the first data row is row 5 due to the metadata rows we always have in the sheets).
+     - **Variable**: Provide the variable name (found in the first row of the column) - with the row number this fully identifies the error cell.
+     - **Error value**:
+       - Finally, copy the error value from the highlighted cell into the 'Error value'.
+       - If the highlighted cell has no value, use '[ABSENT]' to indicate this (including the square brackets).
+   - Repeat for all the highlighted error cells (remembering to group using the 'Error group' column where appropriate).
    - Ensure that you save any changes (File → Save, or Ctrl/Cmd + S).
   
 **Perform Unit Testing.**
@@ -150,15 +153,16 @@ _Step 4 is only applicable in case you want to create a rule for which the folde
    WINDOWS: `.\run\windows_run.bat` \
    MAC: `./run/bash_run.sh` 
    - If you haven't run the setup script before, don't worry; it will run automatically when you execute this command.
-   - You will be prompted to select the rule you wish to run, as well as the test case(s).
+   - You will be prompted to select the rule you wish to run (eg `NEW-RULE`), as well as the test case(s).
+   - This runs the rules in the `rules` folder. To run ADaM rules (`adam_rules` folder), see [Advanced Usage](#advanced-usage).
 
 **Verify Results.**
      
 8) Check your run results in the `results` folder.
-   - Note that there is a separate `results` folder for each test case, which contains only the information relevant to that particular case.
+   - Note that there is a separate `results` folder for each test case (eg `rules/NEW-RULE/negative/01/results`), which contains only the information relevant to that particular case.
    - There will be a `results.json` file, with the code-produced rule output, and a `results.txt` file, which will summarise your results in a more human-readable format. Feel free to examine both.
-   - Once you've run the rule, check to make sure there's nothing mentioned in the rule output - if the highlighting or validation in the validation sheet hasn't been done correctly, you will see notes about 'unvalidated highlights' and 'unhighlighted validations', and you can correct them.
-   - Ideally you see no notes, and `"validated": true` in the results. 
+   - Once you've run the rule, check to make sure there are no issues mentioned in the rule output - if the highlighting or validation in the validation sheet hasn't been done correctly, you will see an `***ISSUES***` section in `results.txt` (and `unvalidated_highlights`, `unhighlighted_validations` or `unmatched_validation` entries in `results.json`), and you can correct them.
+   - Ideally you see no issues, and `"validated": true` for every error in the negative test case results (shown as `Fully Validated in Test Case: Yes` in `results.txt`). 
 
 **_*IMPORTANT NOTE*_**\
 _Note that if the rule or test data is wrong (and you're getting unexpected errors or lacking errors you expect to see), you will almost certainly see some highlight/validation issues. In this case, obviously the priority is to correct the rule and test data before checking the highlights and validation!_
@@ -171,7 +175,8 @@ _Note that if the rule or test data is wrong (and you're getting unexpected erro
        `git add .` \
        `git commit -m "your custom message"` \
        `git push origin <your-branch-name>` 
-       - The first time you commit, you may have to log in to github
+       - The first time you push, you may have to log in to github
+       - Make sure you have re-run the rule (step 7) after your last change, so that the updated `results.json` files are included in your commit - the automated checks on the PR re-run your rule and compare the output against them (`results.txt` files are not committed)
          
 11) Go to the online repository and create a pull request (PR) from your newly pushed branch
     
@@ -183,20 +188,21 @@ _Note that if the rule or test data is wrong (and you're getting unexpected erro
 14) On the PR, reviewers are added automatically (review from 'Rules Team' and 'Engineers Team' are required). Practically speaking, there is no need to assign yourself as you will be notified by default but it is 'good practice' to do it.
     
 15) You're done!
-    - Keep an eye on the PR to make sure the automated checks pass, as well as to respond to any comments from reviewers.
+    - Keep an eye on the PR to make sure the automated checks (YAML schema validation and a re-run of your test cases) pass, as well as to respond to any comments from reviewers.
     - If you need to edit any changes on the PR, you can simply checkout your branch (`git checkout <your-branch-name>`), make your changes, and commit and push them - the PR will automatically update!
 
 **Approval - Merge PR**
 
-16) Once your PR is done, merge your changes to the source code. If you created a new rule in your PR, a new CORE-id will be assigned to it.
+16) Once your PR is approved, merge your changes to the source code. If you created a new rule in your PR, a new CORE-id will be assigned to it automatically (the NEW-RULE folder and files are renamed).
 
 **Let's do another rule!**    
 
 17) If you want to start editing another rule, don't forget to run the below commands on VSCode terminal again: \
        `git checkout main` \
-       `git pull origin main`
+       `git pull origin main` \
+       `git submodule update --recursive`
 
-For further detail on any of these steps or git in general, see [supplementary guide](https://docs.google.com/document/d/15ydgj4AqtEnFtlXL-J4DLJV32q_Q71gKn0ucu4tYYQw/edit?pli=1&tab=t.0)
+For further detail on any of these steps or git in general, see the [supplementary guide](https://docs.google.com/document/d/15ydgj4AqtEnFtlXL-J4DLJV32q_Q71gKn0ucu4tYYQw/edit?pli=1&tab=t.0)
 
 
 # Advanced Usage
@@ -214,8 +220,12 @@ NOTE: You must still run all First-time Local Setup Steps from above before this
    - `python test.py -r <rule-id> -tc <test-case>` - Test a specific case (eg `positive/01`)
    - `python test.py -r <rule-id> -v` - Test with verbose output (prints results to terminal)
    - `python test.py --all-rules` - Test all rules
+   - `python test.py -s adam` - Test ADaM rules (in the `adam_rules` folder) instead of SDTM rules (the default); can be combined with the options above
+   - `python test.py -r <rule-id> -md <path-to-meddra-files>` - Provide external dictionary files (`-wd` WHODrug, `-md` MedDRA, `-un` UNII, `-mrt` Med-RT, `-lo` LOINC, `-sno` SNOMED). For UNII, Med-RT, LOINC and SNOMED you can pass `default` to use the dummy dictionaries in `dummy_ex_dicts`
    - `python test.py -h` - See all available options
 3) When you're done, you can deactivate the venv by running `deactivate`
+
+See also [streamlit/README.md](streamlit/README.md) for the rules contributor dashboard and [.regression/README.md](.regression/README.md) for regression testing across all rules.
 
 
 # Something's Wrong!
