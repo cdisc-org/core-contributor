@@ -11,6 +11,16 @@ Instructions below will guide you step-by-step through the:
   
 These steps should be sufficient to get you started but are very descriptive. If you wish to be guided in a more visual way, steps with print screens are available in the [supplementary guide](https://docs.google.com/document/d/15ydgj4AqtEnFtlXL-J4DLJV32q_Q71gKn0ucu4tYYQw/edit?pli=1&tab=t.0).
 
+**KEY TERMS** \
+You don't need to know Git or programming to follow this guide, but these words come up often:
+- **Terminal**: a window where you type commands instead of clicking. In this guide it is always the terminal inside VSCode. Type (or paste) a command and press Enter to run it.
+- **Repository (repo)**: the project folder, with all the rules and scripts, stored on GitHub. You download your own copy of it in step 6.
+- **Branch**: your own separate copy of the rules to work on, so your changes don't affect anyone else until they are reviewed.
+- **Commit**: a saved snapshot of your changes, with a short message describing them.
+- **Push**: uploading your commits from your computer to GitHub.
+- **Pull request (PR)**: a request, made on the GitHub website, to add your changes to the main repository after a review.
+- **Virtual environment (venv)**: a private copy of Python for this project, created by the setup script. When it is active, `(venv)` is shown at the start of the terminal line.
+
 # First-time Local Setup Steps
 
 ***IMPORTANT NOTE*** \
@@ -23,14 +33,16 @@ _You may need your IT support team to install some of the following software for
    - When prompted, ensure you check the **"Add to PATH"** option (or select **"Git from the command line and also from 3rd-party software"**)
    - Keep all other default settings throughout the installer
    - You DO NOT need to actually run Git as a program, so close any pop-ups that appear after the installation
-3) Install VSCode (***not*** VSCodeUser), following the instructions here: https://code.visualstudio.com/download
+3) Install VSCode, following the instructions here: https://code.visualstudio.com/download
+   - On Windows, choose the **System Installer** (the file name starts with `VSCodeSetup`), ***not*** the User Installer (`VSCodeUserSetup`)
 4) Open VSCode and a terminal within it: 
    - Top Menu → Terminal → New Terminal (check the three dots in the top menu if you don't see 'Terminal')
-5) Create a new empty directory on your machine for storing the repository and subsequent rule authoring and editing. Navigate to it in the terminal using `cd` commands. Avoid OneDrive if possible. 
+5) Create a new empty directory (folder) on your machine for storing the repository and subsequent rule authoring and editing. Navigate to it in the terminal using `cd` commands. Avoid OneDrive if possible. 
+   - `cd` means "change directory": type `cd` followed by a space and the path of the folder, then press Enter (eg `cd Documents`). The terminal line always shows the folder you are currently in.
    - There is sometimes an AI 'helper' box popup in the terminal - make sure you are typing commands into the command line itself, not the box 
    - If any of the folder names you are navigating through have spaces (eg 'My Folder'), you will need to wrap the path in quotes,\
      eg: `cd "C:\Users\rich\Documents\Core Contributor Folder"`
-6) Clone this repo into that directory by running the following command (**DO NOT RUN MORE THAN ONCE**): \
+6) Clone (download) this repo into that directory by running the following command (**DO NOT RUN MORE THAN ONCE**): \
        `git clone --recurse-submodules https://github.com/verisianHQ/core-contributor.git` 
    > **NOTE:** If you encounter `The term 'git' is not recognized as the name of a cmdlet, function, script file, or operable program.`, Git's installation directory has not been added to your system PATH. See [this StackOverflow answer](https://stackoverflow.com/questions/4492979/error-git-is-not-recognized-as-an-internal-or-external-command) for instructions on manually adding Git to your PATH.
    
@@ -60,6 +72,12 @@ _You may need your IT support team to install some of the following software for
     - Click the `Edit in settings.json` option under Yaml: Schemas 
     - Paste the following into "yaml.schemas": 
               `"https://rule-editor.cdisc.org/api/schema": "/*.yml"` 
+    - The result should look like this (if there are other settings in the file, keep them, and make sure there is a comma between each setting and the next one): 
+      ```json
+      "yaml.schemas": {
+          "https://rule-editor.cdisc.org/api/schema": "/*.yml"
+      }
+      ```
     - Save the `settings.json` 
     - There you go! You should now see schema validation in yaml files. If you don't see this behaviour after a few seconds, try restarting VSCode
 
@@ -92,7 +110,8 @@ _Don't forget: whenever you type a command, you should be in the core-contributo
 2) Create a new branch to work on your changes, named as such: `<your-name>/<rule-id>/<change>` (eg `richard/CORE-000001/edit`): \
        `git branch <your-branch-name>`
    
-   _Note that only branch names according to the following regex are allowed: **^[a-zA-Z]+/(CORE-[0-9]{6}|CG[0-9]{4}|FB[0-9]{4}|AD[0-9]{4})/(edit|create|delete)(-[0-9]+)?$**_
+   _Note that only branch names according to the following regex are allowed: **^[a-zA-Z]+/(CORE-[0-9]{6}|CG[0-9]{4}|FB[0-9]{4}|AD[0-9]{4})/(edit|create|delete)(-[0-9]+)?$**_ \
+   _In plain words: your name using letters only (no digits or spaces), then `/`, then the rule ID (`CORE-` followed by 6 digits, or `CG`, `FB` or `AD` followed by 4 digits), then `/`, then `edit`, `create` or `delete`. If you need a second branch for the same rule and change, add a dash and a number at the end (eg `richard/CORE-000001/edit-2`)._
 
    **_*IMPORTANT NOTE*_**\
    _Whenever you create a local branch to work on a rule, ensure that you are on the main branch. If you create a new local branch, when you are already on a local branch, the new branch will branch off the
@@ -172,13 +191,13 @@ _Note that if the rule or test data is wrong (and you're getting unexpected erro
 **Request Review via PR.**
 
 10) Create a PR to add your changes to the repository. To do this, run the following commands: \
-       `git add .` \
-       `git commit -m "your custom message"` \
-       `git push origin <your-branch-name>` 
+       `git add .` (selects all your changes - note the dot at the end) \
+       `git commit -m "your custom message"` (saves them as a commit, with a short description of what you changed between the quotes) \
+       `git push origin <your-branch-name>` (uploads the commit to GitHub)
        - The first time you push, you may have to log in to github
        - Make sure you have re-run the rule (step 7) after your last change, so that the updated `results.json` files are included in your commit - the automated checks on the PR re-run your rule and compare the output against them (`results.txt` files are not committed)
          
-11) Go to the online repository and create a pull request (PR) from your newly pushed branch
+11) Go to the online repository (https://github.com/verisianHQ/core-contributor) and create a pull request (PR) from your newly pushed branch: GitHub usually shows a yellow banner with a **Compare & pull request** button for a branch you have just pushed
     
 12) On the PR page, make sure the information at the top is correct. It should be: \
        `base: main ← compare: <branch-name>`
@@ -210,7 +229,7 @@ For further detail on any of these steps or git in general, see the [supplementa
 Below are some additional functionalities in the test script. To take advantage of this, you will need to run the test script directly, rather than using the run script.
 NOTE: You must still run all First-time Local Setup Steps from above before this.
 
-1) In VSCode terminal, in the core-contributor directory, activate the virtual environment by running one of the following:
+1) In VSCode terminal, in the core-contributor directory, activate the virtual environment by running one of the following (you need to do this every time you open a new terminal; `(venv)` is then shown at the start of the terminal line):
    - WINDOWS: `.\venv\Scripts\activate`
    - MAC: `source ./venv/bin/activate`
    
@@ -279,4 +298,16 @@ Ensure you have no other Excel-related extensions enabled. There may be conflict
 > ***I'm getting a pgserver-related subprocess error after I tried running the test script***
 
 Close VSCode and reopen it WITHOUT selecting "Run As Administrator". PostgreSQL blocks the actual database server that the file "initdb.exe" spins up from running directly under a Windows administrator account for security reasons. Then, re-run your test script. If the same error appears, then delete the `venv` folder in your repo and run the setup script again as mentioned in "First Time Local Setup Steps" section 9 above and then afterwards, simply re-run the test script again.
+<br />
+
+> ***Windows: activating the virtual environment fails with "running scripts is disabled on this system"***
+
+Windows blocks PowerShell scripts by default. Run this command once in the VSCode terminal (it only applies to your user account), then try again: \
+`Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser` \
+If your company settings don't allow this, contact your IT support team.
+<br />
+
+> ***Mac: running a setup or run script fails with "permission denied"***
+
+Run the script through `bash` instead, eg `bash ./setup/bash_setup.sh` or `bash ./run/bash_run.sh`.
 <br />
