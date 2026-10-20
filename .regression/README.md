@@ -1,4 +1,4 @@
-Run isolated regression snapshot/compare without writing to `rules/*/results`:  
+Run isolated regression snapshot/compare without writing to `sdtm_rules/*/results`:  
     - Create baseline outputs in a separate folder:  
        - `python regression_results.py snapshot --baseline-dir .regression/baseline --clean`  
     - Snapshot writes only `results.json` files (no `results.txt`) plus `baseline_run_summary.json` in baseline directory.  
@@ -8,8 +8,8 @@ Run isolated regression snapshot/compare without writing to `rules/*/results`:
       - Regression summary files written to `--comparison-dir` are:  
         - `regression_diff_summary.md` — all rules  
         - `regression_diff_summary_verified.md` — verified rules only (rules with `# verified` or `# Verified` at the top of their YAML)  
-    - Compare baseline against existing real outputs already in `rules/*/results`:  
-       - `python regression_results.py compare --baseline-dir .regression/baseline --current-source rules --summary-file .regression/comparison/regression_diff_summary.md`  
+    - Compare baseline against existing real outputs already in `sdtm_rules/*/results`:  
+       - `python regression_results.py compare --baseline-dir .regression/baseline --current-source sdtm_rules --summary-file .regression/comparison/regression_diff_summary.md`  
     - Pass external dictionary paths using a config file:  
        - `python regression_results.py snapshot --dictionary-paths-file dictionary_paths`  
        - `python regression_results.py compare --dictionary-paths-file dictionary_paths`  

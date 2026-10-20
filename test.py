@@ -20,7 +20,7 @@ from typing import List, Optional, Tuple, Any, Dict
 warnings.filterwarnings("ignore", category=UserWarning, module="openpyxl")
 logging.basicConfig(level=logging.CRITICAL)
 
-SDTM_RULES_DIR = Path("rules")
+SDTM_RULES_DIR = Path("sdtm_rules")
 ADAM_RULES_DIR = Path("adam_rules")
 ENGINE_DIR = Path("engine")
 
@@ -950,7 +950,7 @@ def main():
     available_rules = runner.get_available_rules()
 
     if not available_rules:
-        print("Error: No rules found in 'rules' directory.")
+        print(f"Error: No rules found in '{runner.rules_dir}' directory.")
         sys.exit(1)
 
     rules_to_run = available_rules

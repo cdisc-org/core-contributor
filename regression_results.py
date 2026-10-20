@@ -2,11 +2,11 @@
 """Create isolated regression snapshots and compare rule outputs.
 
 Key behavior:
-- Snapshot and isolated compare runs DO NOT write into rules/*/results.
+- Snapshot and isolated compare runs DO NOT write into sdtm_rules/*/results.
 - Snapshot outputs are written only under the baseline directory.
 - Isolated compare outputs are written to a temporary folder and removed.
 - Comparison directory stores summary outputs only.
-- Comparison can also run against existing real results under rules/.
+- Comparison can also run against existing real results under sdtm_rules/.
 
 The script compares case-level results.json files and ignores only
 `dictionary_versions` during diff normalization. The `validated` field is
@@ -107,7 +107,7 @@ def _total_errors(payload: Dict[str, Any]) -> int:
 
 
 def _execute_case(runner: Any, rule_id: str, test_type: str, case_info: Dict[str, str]) -> Dict[str, Any]:
-    """Run one test case and return a results.json payload (without writing to rules/)."""
+    """Run one test case and return a results.json payload (without writing to sdtm_rules/)."""
     _, results_data = runner.run_validation(rule_id, case_info)
 
     if results_data is None:
@@ -145,7 +145,7 @@ def run_isolated_suite(
     dictionary_paths_file: Optional[Path],
     clean: bool,
 ) -> Dict[str, Any]:
-    """Run all cases and write results.json outputs under output_dir/rules/ only."""
+    """Run all cases and write results.json outputs under output_dir/sdtm_rules/ only."""
 
     dictionary_paths = load_dictionary_paths(dictionary_paths_file)
 
@@ -179,7 +179,7 @@ def run_isolated_suite(
                     case_id = case_info["case_id"]
                     payload = _execute_case(runner, rule_id, test_type, case_info)
 
-                    out_results_dir = output_dir / "rules" / rule_id / test_type / case_id / "results"
+                    out_results_dir = output_dir / "sdtm_rules" / rule_id / test_type / case_id / "results"
                     out_results_dir.mkdir(parents=True, exist_ok=True)
 
                     with (out_results_dir / "results.json").open("w", encoding="utf-8") as f:
@@ -222,7 +222,7 @@ def _extract_case_key(path: Path, root: Path) -> Optional[str]:
         return None
 
     # Accept roots that are either:
-    # - <root>/rules/<rule>/<type>/<case>/results/results.json
+    # - <root>/sdtm_rules/<rule>/<type>/<case>/results/results.json
     # - <root>/<rule>/<type>/<case>/results/results.json
     rule, test_type, case_id = rel_parts[-5], rel_parts[-4], rel_parts[-3]
     if test_type not in {"positive", "negative"}:
@@ -231,7 +231,7 @@ def _extract_case_key(path: Path, root: Path) -> Optional[str]:
     return f"{rule}/{test_type}/{case_id}"
 
 
-RULES_DIR = Path("rules")
+RULES_DIR = Path("sdtm_rules")
 
 
 def is_rule_verified(rule_id: str) -> bool:
@@ -497,7 +497,7 @@ def parse_args() -> argparse.Namespace:
 
     snapshot = subparsers.add_parser(
         "snapshot",
-        help="Run all rules in isolated mode and write baseline outputs outside rules/",
+        help="Run all rules in isolated mode and write baseline outputs outside sdtm_rules/",
     )
     snapshot.add_argument("--baseline-dir", type=Path, default=DEFAULT_BASELINE_DIR)
     snapshot.add_argument("--dictionary-paths-file", type=Path)
@@ -510,12 +510,12 @@ def parse_args() -> argparse.Namespace:
 
     compare = subparsers.add_parser(
         "compare",
-        help="Compare baseline outputs against isolated current run, rules/, or a custom folder",
+        help="Compare baseline outputs against isolated current run, sdtm_rules/, or a custom folder",
     )
     compare.add_argument("--baseline-dir", type=Path, default=DEFAULT_BASELINE_DIR)
     compare.add_argument(
         "--current-source",
-        choices=["isolated", "rules", "folder"],
+        choices=["isolated", "sdtm_rules", "folder"],
         default="isolated",
         help="Source of current results to compare against baseline",
     )
@@ -555,7 +555,7 @@ def main() -> int:
             clean=args.clean,
         )
         print(f"Baseline created at: {args.baseline_dir}")
-        print("No files were written to rules/*/results by this command.")
+        print("No files were written to sdtm_rules/*/results by this command.")
         return 0
 
     baseline_root = args.baseline_dir
@@ -621,8 +621,8 @@ def main() -> int:
             print("Isolated compare run used a temporary folder; only summary files were written to comparison-dir.")
 
             return 0 if (stats["added_cases"] + stats["removed_cases"] + stats["changed_cases"]) == 0 else 2
-    elif args.current_source == "rules":
-        current_root = Path("rules")
+    elif args.current_source == "sdtm_rules":
+        current_root = Path("sdtm_rules")
     else:
         if not args.current_dir:
             print("--current-dir is required when --current-source folder")
