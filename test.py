@@ -3,6 +3,7 @@
 Contributor test script for SQL CDISC Rules Engine Contributor Repo.
 """
 
+import os
 import re
 import sys
 import argparse
@@ -13,6 +14,7 @@ import textwrap
 import csv
 import pandas as pd
 import openpyxl as op
+from functools import cached_property
 from glob import glob
 from pathlib import Path
 from typing import List, Optional, Tuple, Any, Dict
@@ -22,7 +24,33 @@ logging.basicConfig(level=logging.CRITICAL)
 
 SDTM_RULES_DIR = Path("sdtm_rules")
 ADAM_RULES_DIR = Path("adam_rules")
+STANDARD_RULES_DIRS = {"sdtm": SDTM_RULES_DIR, "adam": ADAM_RULES_DIR}
 ENGINE_DIR = Path("engine")
+
+# Folders inside a rules tree that hold test cases or outputs, never rules.
+NON_RULE_DIRS = {"positive", "negative", "shared_test_cases", "results"}
+
+
+def discover_rules(rules_dir: Path) -> Dict[str, Path]:
+    """Recursively map every rule ID under rules_dir to its folder.
+
+    A rule folder is any directory holding a rule YAML, at any depth: standalone
+    (<rules_dir>/<rule>/), bundled (<rules_dir>/<bundle>/<rule>/) or further nested.
+    Rule folders are not searched further, and test case/results folders are skipped.
+    """
+    rules: Dict[str, Path] = {}
+    for dirpath, dirnames, filenames in os.walk(rules_dir):
+        if any(f.endswith(".yml") and not f.startswith("~") for f in filenames):
+            rules.setdefault(Path(dirpath).name, Path(dirpath))
+            dirnames.clear()
+        else:
+            dirnames[:] = sorted(d for d in dirnames if d not in NON_RULE_DIRS and not d.startswith("."))
+    return dict(sorted(rules.items()))
+
+
+def is_bundled_rule(rule_path: Path) -> bool:
+    """Bundled rules share test cases kept in a shared_test_cases folder next to them."""
+    return (rule_path.parent / "shared_test_cases").is_dir()
 
 
 class ResultReporter:
@@ -100,25 +128,14 @@ class ResultReporter:
     @classmethod
     def save_case_results(
         cls,
-        rules_dir: str,
-        rule_id: str,
+        rule_folder: Path,
         test_type: str,
         case_id: str,
         results: dict,
         version_info: Optional[dict] = None,
     ):
         """Saves JSON and TXT results to the file system."""
-        base_rule_path = Path(rules_dir)
-        rule_folder = base_rule_path / rule_id
-        is_bundled = not rule_folder.exists()
-
-        if is_bundled:
-            for d in base_rule_path.iterdir():
-                if d.is_dir() and (d / rule_id).exists():
-                    rule_folder = d / rule_id
-                    break
-
-        if is_bundled:
+        if is_bundled_rule(rule_folder):
             results_path = rule_folder / "results" / test_type / case_id
         else:
             results_path = rule_folder / test_type / case_id / "results"
@@ -187,13 +204,9 @@ class TestRunner:
         self.use_pgserver = use_pgserver
         self.standard = standard
         self.default_ct = ct
-        self.rules_dir = None
-        if standard == "sdtm":
-            self.rules_dir = SDTM_RULES_DIR
-        elif standard == "adam":
-            self.rules_dir = ADAM_RULES_DIR
-        else:
+        if standard not in STANDARD_RULES_DIRS:
             raise ValueError(f"Unsupported standard: {standard}")
+        self.rules_dir = STANDARD_RULES_DIRS[standard]
 
         from engine.cdisc_rules_engine.models.sql_external_dictionaries_container import (
             SqlExternalDictionariesContainer,
@@ -364,40 +377,22 @@ class TestRunner:
 
         return version_info
 
+    @cached_property
+    def rule_paths(self) -> Dict[str, Path]:
+        return discover_rules(self.rules_dir)
+
     def get_rule_path(self, rule_id: str) -> Optional[Path]:
-        if not self.rules_dir.exists():
-            return None
-
-        standalone_path = self.rules_dir / rule_id
-        if standalone_path.exists() and standalone_path.is_dir():
-            return standalone_path
-
-        for d in self.rules_dir.iterdir():
-            if d.is_dir():
-                bundled_path = d / rule_id
-                if bundled_path.exists() and bundled_path.is_dir():
-                    return bundled_path
-
-        return None
+        return self.rule_paths.get(rule_id)
 
     def get_available_rules(self) -> List[str]:
-        if not self.rules_dir.exists():
-            return []
+        return list(self.rule_paths)
 
-        rules = []
-        for d in self.rules_dir.iterdir():
-            if not d.is_dir():
-                continue
-
-            if d.name.startswith("CORE-") or d.name.startswith("AD") or d.name.startswith("NEW-RULE"):
-                if list(d.glob("[!~]*.yml")):
-                    rules.append(d.name)
-                else:
-                    for subd in d.iterdir():
-                        if subd.is_dir() and list(subd.glob("[!~]*.yml")):
-                            rules.append(subd.name)
-
-        return sorted(rules)
+    def get_bundle_rules(self, bundle_id: str) -> List[str]:
+        return [
+            rule_id
+            for rule_id, path in self.rule_paths.items()
+            if path.parent.name == bundle_id and is_bundled_rule(path)
+        ]
 
     def get_test_cases(self, rule_id: str) -> dict:
         """Scans directories to find available test cases for a rule."""
@@ -407,10 +402,7 @@ class TestRunner:
         if not rule_path:
             return cases
 
-        parent_dir = rule_path.parent
-        shared_cases_path = parent_dir / "shared_test_cases"
-
-        test_source = shared_cases_path if shared_cases_path.exists() else rule_path
+        test_source = rule_path.parent / "shared_test_cases" if is_bundled_rule(rule_path) else rule_path
 
         for test_type in ["positive", "negative"]:
             test_type_path = test_source / test_type
@@ -668,8 +660,7 @@ class TestRunner:
 
         if results_data is None or results_data.get("error"):
             results_path = ResultReporter.save_case_results(
-                self.rules_dir,
-                rule_id,
+                self.get_rule_path(rule_id),
                 test_type,
                 case_id,
                 results_data or {"error": "Unknown", "exception": "Engine returned None"},
@@ -704,7 +695,7 @@ class TestRunner:
                     results_data["unvalidated_highlights"] = unvalidated_highlights
 
         results_path = ResultReporter.save_case_results(
-            self.rules_dir, rule_id, test_type, case_id, results_data, self.version_info
+            self.get_rule_path(rule_id), test_type, case_id, results_data, self.version_info
         )
         total_errors = sum(len(ds.get("errors", [])) for ds in results_data.get("datasets", []))
         passed = (total_errors == 0) if test_type == "positive" else (total_errors > 0)
@@ -959,11 +950,8 @@ def main():
     if not args.all_rules:
         rule_input = args.rule or InteractiveHandler.prompt_rule(available_rules)
 
-        bundle_path = runner.rules_dir / rule_input
-        if bundle_path.is_dir() and (bundle_path / "shared_test_cases").exists():
-            rules_to_run = sorted(
-                [d.name for d in bundle_path.iterdir() if d.is_dir() and d.name != "shared_test_cases"]
-            )
+        if bundle_rules := runner.get_bundle_rules(rule_input):
+            rules_to_run = bundle_rules
             print(f"\nIdentified {rule_input} as a bundle. Running all {len(rules_to_run)} rules inside it.")
         elif rule_input in available_rules:
             rules_to_run = [rule_input]
@@ -1032,7 +1020,7 @@ def main():
 
 
 def generate_rule_results(standard: str, rules_dir: str, rule_id: str) -> dict:
-    rule_yml = list((Path(rules_dir) / rule_id).glob("[!~]*.yml"))[0]
+    rule_yml = list(discover_rules(Path(rules_dir))[rule_id].glob("[!~]*.yml"))[0]
     with rule_yml.open("r", encoding="utf-8") as f:
         content = f.read().lower()
 
