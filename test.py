@@ -41,7 +41,11 @@ def discover_rules(rules_dir: Path) -> Dict[str, Path]:
     rules: Dict[str, Path] = {}
     for dirpath, dirnames, filenames in os.walk(rules_dir):
         if any(f.endswith(".yml") and not f.startswith("~") for f in filenames):
-            rules.setdefault(Path(dirpath).name, Path(dirpath))
+            rule_id = Path(dirpath).name
+            if rule_id in rules:
+                print(f"Warning: duplicate rule ID {rule_id} in {dirpath}; using {rules[rule_id]}")
+            else:
+                rules[rule_id] = Path(dirpath)
             dirnames.clear()
         else:
             dirnames[:] = sorted(d for d in dirnames if d not in NON_RULE_DIRS and not d.startswith("."))
@@ -51,6 +55,10 @@ def discover_rules(rules_dir: Path) -> Dict[str, Path]:
 def is_bundled_rule(rule_path: Path) -> bool:
     """Bundled rules share test cases kept in a shared_test_cases folder next to them."""
     return (rule_path.parent / "shared_test_cases").is_dir()
+
+
+def is_grouped_rule(rules_dir: Path, rule_path: Path) -> bool:
+    return rule_path.parent != Path(rules_dir)
 
 
 class ResultReporter:
@@ -128,6 +136,7 @@ class ResultReporter:
     @classmethod
     def save_case_results(
         cls,
+        rules_dir: Path,
         rule_folder: Path,
         test_type: str,
         case_id: str,
@@ -135,7 +144,7 @@ class ResultReporter:
         version_info: Optional[dict] = None,
     ):
         """Saves JSON and TXT results to the file system."""
-        if is_bundled_rule(rule_folder):
+        if is_grouped_rule(rules_dir, rule_folder):
             results_path = rule_folder / "results" / test_type / case_id
         else:
             results_path = rule_folder / test_type / case_id / "results"
@@ -660,6 +669,7 @@ class TestRunner:
 
         if results_data is None or results_data.get("error"):
             results_path = ResultReporter.save_case_results(
+                self.rules_dir,
                 self.get_rule_path(rule_id),
                 test_type,
                 case_id,
@@ -695,7 +705,7 @@ class TestRunner:
                     results_data["unvalidated_highlights"] = unvalidated_highlights
 
         results_path = ResultReporter.save_case_results(
-            self.get_rule_path(rule_id), test_type, case_id, results_data, self.version_info
+            self.rules_dir, self.get_rule_path(rule_id), test_type, case_id, results_data, self.version_info
         )
         total_errors = sum(len(ds.get("errors", [])) for ds in results_data.get("datasets", []))
         passed = (total_errors == 0) if test_type == "positive" else (total_errors > 0)

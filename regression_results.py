@@ -559,7 +559,7 @@ def parse_args() -> argparse.Namespace:
         "--current-source",
         choices=["isolated", "sdtm_rules", "folder"],
         default="isolated",
-        help="Source of current results to compare against baseline",
+        help="Source of current results to compare against baseline ('rules' is the --standard's rules folder)",
     )
     compare.add_argument(
         "--comparison-dir",
@@ -596,6 +596,9 @@ def main() -> int:
     rule_paths = discover_rules(rules_dir)
 
     if args.command == "snapshot":
+        if not args.clean and not check_run_standard(args.baseline_dir, args.standard):
+            print("Or pass --clean to replace it.")
+            return 1
         run_isolated_suite(
             output_dir=args.baseline_dir,
             standard=args.standard,
