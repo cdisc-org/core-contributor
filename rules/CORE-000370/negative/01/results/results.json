@@ -13,7 +13,7 @@
       "domain": "DS",
       "execution_status": "success",
       "execution_message": "DSTERM indicates INFORMED CONSENT OBTAINED but RFICDTC in the DM dataset is not equal to the earliest DSSTDTC.",
-      "number_errors": 2,
+      "number_errors": 3,
       "errors": [
         {
           "row": 1,
@@ -38,8 +38,27 @@
             "$min_ds_dsstdtc": "2018-04-06"
           },
           "validated": true
+        },
+        {
+          "row": 29,
+          "SEQ": 1,
+          "USUBJID": "GUARD-RFIC-NULL",
+          "value": {
+            "DSTERM": "INFORMED CONSENT FOR STUDY OBTAINED",
+            "RFICDTC": null,
+            "DSSTDTC": "2018-06-01",
+            "$min_ds_dsstdtc": "2018-06-01"
+          },
+          "validated": false
         }
       ]
+    }
+  ],
+  "unmatched_validation": [
+    {
+      "value": {
+        "RFICDTC": null
+      }
     }
   ]
 }

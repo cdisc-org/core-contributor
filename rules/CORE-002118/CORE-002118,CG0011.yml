@@ -43,6 +43,8 @@ Authorities:
         Version: '3.4'
 Check:
   all:
+    - name: --EVLINT
+      operator: non_empty
     - operator: invalid_duration
       name: --EVLINT
       negative: true

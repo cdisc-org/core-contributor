@@ -137,6 +137,9 @@ Authorities:
         Version: '1.0'
 Check:
   all:
+    - name: $max_variable_value_length
+      operator: greater_than
+      value: 0
     - name: variable_length
       operator: greater_than
       value: $max_variable_value_length

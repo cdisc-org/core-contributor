@@ -12,7 +12,8 @@
           "SEQ": null,
           "USUBJID": "S002",
           "value": {
-            "ETHNIC": "LATINO"
+            "ETHNIC": "LATINO",
+            "CETHNIC": "SPANISH ORIGIN"
           },
           "validated": false
         },
@@ -21,7 +22,8 @@
           "SEQ": null,
           "USUBJID": "S003",
           "value": {
-            "ETHNIC": "NOT HISPANIC"
+            "ETHNIC": "NOT HISPANIC",
+            "CETHNIC": "SPANISH ORIGIN"
           },
           "validated": false
         }

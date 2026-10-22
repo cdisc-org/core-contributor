@@ -45,17 +45,15 @@ Authorities:
             Version: '1.5'
         Version: '3.4'
 Check:
-  any:
+  all:
     - name: $FDAdesired_missing_tsparmcds
-      operator: non_empty
-    - name: $FDAdesired_empty_tsparmcds
       operator: non_empty
 Core:
   Id: CORE-000737
   Status: Published
   Version: '1'
 Description: Raise an error when not all FDA Desired Trial Summary (TS)
-  Parameters (TSPARMCDs) are present in the TS dataset or TSVAL is not populated.
+  Parameters (TSPARMCDs) are present in the TS dataset.
 Executability: Fully Executable
 Operations:
   - id: $distinct_tsparmcds
@@ -74,7 +72,6 @@ Operations:
       - DCUTDTC
       - EXTTIND
       - FCNTRY
-      - FDATCHSP
       - HLTSUBJI
       - LENGTH
       - NARMS
@@ -104,63 +101,12 @@ Operations:
       - TPHASE
       - TTYPE
       - INDIC
-      - SPREFID
+      - RANDQT
     subtract: $distinct_tsparmcds
-  - id: $empty_tsval_tsparmcds
-    operator: distinct
-    name: TSPARMCD
-    filter:
-      TSVAL: ""
-  - id: $FDAdesired_empty_tsparmcds
-    operator: intersect
-    name: $empty_tsval_tsparmcds
-    subtract:
-      - ACTSUB
-      - ADAPT
-      - ADDON
-      - AGEMAX
-      - AGEMIN
-      - COMPTRT
-      - DCUTDESC
-      - DCUTDTC
-      - EXTTIND
-      - FCNTRY
-      - FDATCHSP
-      - HLTSUBJI
-      - LENGTH
-      - NARMS
-      - NCOHORT
-      - OBJPRIM
-      - OBJSEC
-      - ONGOSIND
-      - OUTMSPRI
-      - PDPSTIND
-      - PDSTIND
-      - PIPIND
-      - PLANSUB
-      - RDIND
-      - REGID
-      - SENDTC
-      - SEXPOP
-      - SPONSOR
-      - SDTMVER
-      - SDTIGVER
-      - STYPE
-      - STOPRULE
-      - SSTDTC
-      - TBLIND
-      - TCNTRL
-      - THERAREA
-      - TITLE
-      - TPHASE
-      - TTYPE
-      - INDIC
-      - SPREFID
 Outcome:
-  Message: At least one FDA Desired TSPARMCD is missing in the TS dataset or TSVAL is not populated.
+  Message: At least one FDA Desired TSPARMCD is missing in the TS dataset.
   Output Variables:
     - $FDAdesired_missing_tsparmcds
-    - $FDAdesired_empty_tsparmcds
 Rule Type: Record Data
 Scope:
   Classes:

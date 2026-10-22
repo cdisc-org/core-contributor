@@ -38,44 +38,45 @@ Authorities:
             Version: '1.5'
         Version: '3.4'
 Check:
-  any:
-    - name: TSPARMCD
-      operator: not_contains_all
-      value:
-        - INTMODEL
-        - INTTYPE
-        - PCLASS
-      value_is_literal: true
-    - any:
-        - all:
-            - name: TSPARMCD
-              operator: equal_to
-              value: INTMODEL
-              value_is_literal: true
-            - name: TSVAL
-              operator: empty
-        - all:
-            - name: TSPARMCD
-              operator: equal_to
-              value: INTTYPE
-              value_is_literal: true
-            - name: TSVAL
-              operator: empty
-        - all:
-            - name: TSPARMCD
-              operator: equal_to
-              value: PCLASS
-              value_is_literal: true
-            - name: TSVAL
-              operator: empty
+  all:
     - name: $STYPE_INTERVENTIONAL
-      operator: not_equal_to
+      operator: greater_than_or_equal_to
       value: 1
+    - any:
+        - name: TSPARMCD
+          operator: not_contains_all
+          value:
+            - INTMODEL
+            - INTTYPE
+            - PCLAS
+          value_is_literal: true
+        - any:
+            - all:
+                - name: TSPARMCD
+                  operator: equal_to
+                  value: INTMODEL
+                  value_is_literal: true
+                - name: TSVAL
+                  operator: empty
+            - all:
+                - name: TSPARMCD
+                  operator: equal_to
+                  value: INTTYPE
+                  value_is_literal: true
+                - name: TSVAL
+                  operator: empty
+            - all:
+                - name: TSPARMCD
+                  operator: equal_to
+                  value: PCLAS
+                  value_is_literal: true
+                - name: TSVAL
+                  operator: empty
 Core:
   Status: Published
   Version: '1'
   Id: CORE-000741
-Description: The set  ('INTMODEL’, 'INTTYPE','PCLASS') is not in the list of
+Description: The set  ('INTMODEL’, 'INTTYPE','PCLAS') is not in the list of
   TSPARAMCD with TSVAL populated.
 Executability: Fully Executable
 Operations:
@@ -85,7 +86,7 @@ Operations:
     id: $STYPE_INTERVENTIONAL
     operator: record_count
 Outcome:
-  Message: The set  ('INTMODEL’, 'INTTYPE','PCLASS') is not in the list of
+  Message: The set  ('INTMODEL’, 'INTTYPE','PCLAS') is not in the list of
     TSPARAMCD with TSVAL populated.
   Output Variables:
     - TSPARMCD
@@ -99,4 +100,4 @@ Scope:
   Domains:
     Include:
       - TS
-Sensitivity: Record
+Sensitivity: Dataset

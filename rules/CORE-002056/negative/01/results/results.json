@@ -13,10 +13,8 @@
           "USUBJID": null,
           "value": {
             "$missing_trial_design_domains": [
-              "TA",
-              "TD",
               "TI",
-              "TM"
+              "TA"
             ]
           },
           "validated": true

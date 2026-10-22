@@ -12,7 +12,8 @@
           "SEQ": null,
           "USUBJID": "S002",
           "value": {
-            "RACE": "WHITE"
+            "RACE": "WHITE",
+            "CRACE": "HAITIAN"
           },
           "validated": false
         },
@@ -21,7 +22,8 @@
           "SEQ": null,
           "USUBJID": "S003",
           "value": {
-            "RACE": "BLACK OR\nAFRICAN"
+            "RACE": "BLACK OR\nAFRICAN",
+            "CRACE": "NEGRO"
           },
           "validated": false
         }

@@ -51,19 +51,18 @@ Authorities:
         Version: '3.4'
 Check:
   all:
-    - name: RACE
-      operator: non_empty
+    - any:
+        - name: CRACE
+          operator: equal_to_case_insensitive
+          value: HAITIAN
+          value_is_literal: true
+        - name: CRACE
+          operator: equal_to_case_insensitive
+          value: NEGRO
+          value_is_literal: true
     - name: RACE
       operator: not_equal_to
-      value: 'BLACK OR AFRICAN AMERICAN'
-      value_is_literal: true
-    - name: QNAM
-      operator: equal_to
-      value: CRACE
-      value_is_literal: true
-    - name: QVAL
-      operator: equal_to
-      value: 'HATIAN or NEGRO'
+      value: BLACK OR AFRICAN AMERICAN
       value_is_literal: true
 Core:
   Id: CORE-000747
@@ -81,6 +80,7 @@ Outcome:
     mapped to RACE = BLACK OR AFRICAN AMERICAN in DM dataset.
   Output Variables:
     - RACE
+    - CRACE
 Rule Type: Record Data
 Scope:
   Classes:

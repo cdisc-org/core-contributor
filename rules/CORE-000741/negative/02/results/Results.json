@@ -4,27 +4,16 @@
       "dataset": "ts.xpt",
       "domain": "TS",
       "execution_status": "success",
-      "execution_message": "The set  ('INTMODEL\u2019, 'INTTYPE','PCLASS') is not in the list of TSPARAMCD with TSVAL populated.",
-      "number_errors": 2,
+      "execution_message": "The set  ('INTMODEL\u2019, 'INTTYPE','PCLAS') is not in the list of TSPARAMCD with TSVAL populated.",
+      "number_errors": 1,
       "errors": [
         {
-          "row": 2,
-          "SEQ": 1,
-          "USUBJID": "None",
+          "row": null,
+          "SEQ": null,
+          "USUBJID": null,
           "value": {
-            "TSPARMCD": "INTTYPE",
-            "TSVAL": null,
-            "$STYPE_INTERVENTIONAL": 1
-          },
-          "validated": false
-        },
-        {
-          "row": 3,
-          "SEQ": 1,
-          "USUBJID": "None",
-          "value": {
-            "TSPARMCD": "PCLASS",
-            "TSVAL": null,
+            "TSPARMCD": "INTMODEL",
+            "TSVAL": "nonempty",
             "$STYPE_INTERVENTIONAL": 1
           },
           "validated": false

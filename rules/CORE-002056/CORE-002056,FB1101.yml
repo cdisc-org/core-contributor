@@ -140,15 +140,17 @@ Outcome:
   Output Variables:
     - $missing_trial_design_domains
 Rule Type: Record Data
-Operations: 
-  - operator: standard_domains
-    id: $trial_design_domains
-    domain_class: 'TRIAL DESIGN'
+Operations:
   - operator: dataset_names
     id: $dataset_names
   - operator: minus
     id: $missing_trial_design_domains
-    name: $trial_design_domains
+    name:
+      - TA
+      - TE
+      - TI
+      - TS
+      - TV
     subtract: $dataset_names
     case_sensitive: False
 Scope:

@@ -73,7 +73,9 @@ Check:
           value:
             - USUBJID
             - --TESTCD
-            - $TIMING_VARIABLES
+            - VISITNUM
+            - --TPTNUM
+            - --TPTREF
 Core:
   Id: CORE-001034
   Status: Published
@@ -84,10 +86,6 @@ Description: Raise an error when REPNUM is present and there are multiple
  subject per test per timing variables.
 Executability: Fully Executable
 Operations:
-  - id: $TIMING_VARIABLES
-    key_name: role
-    key_value: Timing
-    operator: get_model_filtered_variables
   - id: $record_count_per_subject_test_timing
     operator: record_count
 Outcome:

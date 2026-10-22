@@ -25,6 +25,8 @@ Check:
   all:
     - name: --DECOD
       operator: non_empty
+    - name: RELREC.FAOBJ
+      operator: non_empty
     - name: --DECOD
       operator: not_equal_to
       value: RELREC.FAOBJ

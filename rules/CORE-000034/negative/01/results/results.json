@@ -13,7 +13,7 @@
       "domain": "DS",
       "execution_status": "success",
       "execution_message": "DSDECOD equals 'DEATH' but DSSTDTC is not equal to DTHDTC in DM dataset.",
-      "number_errors": 2,
+      "number_errors": 3,
       "errors": [
         {
           "row": 7,
@@ -27,6 +27,17 @@
           "validated": true
         },
         {
+          "row": 21,
+          "SEQ": 4,
+          "USUBJID": "015246-888-0008-08888",
+          "value": {
+            "DSDECOD": "DEATH",
+            "DSSTDTC": "2019-01-10",
+            "DTHDTC": null
+          },
+          "validated": true
+        },
+        {
           "row": 26,
           "SEQ": 5,
           "USUBJID": "015246-999-0003-09999",
@@ -35,7 +46,7 @@
             "DSSTDTC": "2021-01-10T12:02",
             "DTHDTC": "2021-01-10T12:01"
           },
-          "validated": true
+          "validated": false
         }
       ]
     }

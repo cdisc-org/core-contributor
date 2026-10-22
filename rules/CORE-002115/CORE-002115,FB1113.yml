@@ -1,5 +1,5 @@
 # Variable: TSVAL
-# Condition: TSVAL when TSPARMCD = 'SSDTC'
+# Condition: TSVAL when TSPARMCD = 'SSTDTC'
 # Rule: TSVAL =  min(DM.RFICDTC)
 Authorities:
   - Organization: FDA
@@ -50,7 +50,7 @@ Check:
   all:
     - name: TSPARMCD
       operator: equal_to
-      value: SSDTC
+      value: SSTDTC
       value_is_literal: true
     - name: TSVAL
       operator: non_empty

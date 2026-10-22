@@ -72,9 +72,20 @@ Check:
       operator: equal_to
       value: DEATH
       value_is_literal: true
-    - name: DSSTDTC
-      operator: date_not_equal_to
-      value: DTHDTC
+    - any:
+        - name: DSSTDTC
+          operator: date_not_equal_to
+          value: DTHDTC
+        - all:
+            - name: DTHDTC
+              operator: empty
+            - name: DSSTDTC
+              operator: non_empty
+        - all:
+            - name: DSSTDTC
+              operator: empty
+            - name: DTHDTC
+              operator: non_empty
 Core:
   Id: CORE-000034
   Status: Published
