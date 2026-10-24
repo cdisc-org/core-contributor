@@ -678,7 +678,7 @@ def main() -> int:
             print("Isolated compare run used a temporary folder; only summary files were written to comparison-dir.")
 
             return 0 if (stats["added_cases"] + stats["removed_cases"] + stats["changed_cases"]) == 0 else 2
-    elif args.current_source == "sdtm_rules":
+    elif args.current_source == "rules":
         current_root = rules_dir
     else:
         if not args.current_dir:
