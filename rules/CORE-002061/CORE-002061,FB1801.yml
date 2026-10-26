@@ -136,21 +136,35 @@ Authorities:
             Version: '1.5'
         Version: '1.0'
 Check:
-  all:
-    - name: variable_data_type
-      operator: equal_to
-      value: Char
-      value_is_literal: true
-    - name: $max_variable_value_length
-      operator: greater_than
-      value: 0
-    - any:
+  any:
+    - name: $global_max_variable_length
+      operator: not_equal_to
+      value: $global_min_variable_length
+    - all:
+        - name: variable_data_type
+          operator: equal_to
+          value: Char
+          value_is_literal: true
+        - name: $max_variable_value_length
+          operator: greater_than
+          value: 0
         - name: variable_length
           operator: not_equal_to
           value: $max_variable_value_length
-        - name: $global_max_variable_length
+    - all:
+        - name: variable_data_type
+          operator: equal_to
+          value: Char
+          value_is_literal: true
+        - any:
+            - name: $max_variable_value_length
+              operator: equal_to
+              value: 0
+            - name: $max_variable_value_length
+              operator: empty
+        - name: variable_length
           operator: not_equal_to
-          value: $global_min_variable_length
+          value: 1
 Core:
   Id: CORE-002061
   Status: Published

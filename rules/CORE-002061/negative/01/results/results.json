@@ -90,15 +90,5 @@
         }
       ]
     }
-  ],
-  "unmatched_validation": [
-    {
-      "value": {
-        "variable_name": "SVENDY",
-        "$max_variable_value_length": 2,
-        "$global_min_variable_length": 1,
-        "$global_max_variable_length": 1
-      }
-    }
   ]
 }
