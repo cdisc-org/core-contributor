@@ -557,7 +557,7 @@ def parse_args() -> argparse.Namespace:
     )
     compare.add_argument(
         "--current-source",
-        choices=["isolated", "sdtm_rules", "folder"],
+        choices=["isolated", "rules", "folder"],
         default="isolated",
         help="Source of current results to compare against baseline ('rules' is the --standard's rules folder)",
     )
