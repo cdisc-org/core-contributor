@@ -68,8 +68,6 @@ Check:
     - name: USUBJID
       operator: is_contained_by
       value: $ex_usubjid
-    - name: RFXENDTC
-      operator: non_empty
     - any:
         - all:
             - name: RFXENDTC

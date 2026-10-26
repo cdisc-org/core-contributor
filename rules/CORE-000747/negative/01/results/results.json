@@ -5,7 +5,7 @@
       "domain": "DM",
       "execution_status": "success",
       "execution_message": "Race Term 'Haitian' or 'Negro' is collected (SUPPDM.CRACE) but is not mapped to RACE = BLACK OR AFRICAN AMERICAN in DM dataset.",
-      "number_errors": 2,
+      "number_errors": 3,
       "errors": [
         {
           "row": 2,
@@ -15,7 +15,7 @@
             "RACE": "WHITE",
             "CRACE": "HAITIAN"
           },
-          "validated": false
+          "validated": true
         },
         {
           "row": 3,
@@ -25,7 +25,17 @@
             "RACE": "BLACK OR\nAFRICAN",
             "CRACE": "NEGRO"
           },
-          "validated": false
+          "validated": true
+        },
+        {
+          "row": 5,
+          "SEQ": null,
+          "USUBJID": "S005",
+          "value": {
+            "RACE": null,
+            "CRACE": "HAITIAN"
+          },
+          "validated": true
         }
       ]
     },

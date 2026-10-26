@@ -55,18 +55,13 @@ Authorities:
                 Item: AP Guide v1.0[Section 2][Bullet 1]|IG v3.4[4.1.7][Item 6]
                 Section: 2|4.1.7
 Check:
-  all:
+  any:
     - name: dataset_name
-      operator: prefix_matches_regex
-      prefix: 2
-      value: (AP|ap)
-    - any:
-        - name: dataset_name
-          operator: longer_than
-          value: 6
-        - name: dataset_name
-          operator: shorter_than_or_equal_to
-          value: 4
+      operator: longer_than
+      value: 6
+    - name: dataset_name
+      operator: shorter_than_or_equal_to
+      value: 4
 Core:
   Id: CORE-000778
   Status: Published

@@ -25,26 +25,8 @@
             "TSVCDVER": "2025-13-45",
             "TSVCDREF": "CDISC CT"
           },
-          "validated": false
+          "validated": true
         }
-      ]
-    }
-  ],
-  "unmatched_validation": [
-    {
-      "value": {
-        "TSVCDVER": "2025-13-45"
-      }
-    }
-  ],
-  "unhighlighted_validations": [
-    {
-      "null": [
-        "ts.xpt",
-        "record",
-        "N/A",
-        "TSVCDVER",
-        "2025-13-45"
       ]
     }
   ]

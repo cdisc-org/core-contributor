@@ -96,14 +96,21 @@ Check:
       value: INFORMED CONSENT
       value_is_literal: true
     - any:
-        - name: RFICDTC
-          operator: date_not_equal_to
-          value: $min_ds_dsstdtc
-        - name: RFICDTC
-          operator: empty
-    - name: $min_ds_dsstdtc
-      operator: equal_to
-      value: DSSTDTC
+        - all:
+            - name: $min_ds_dsstdtc
+              operator: equal_to
+              value: DSSTDTC
+            - any:
+                - name: RFICDTC
+                  operator: date_not_equal_to
+                  value: $min_ds_dsstdtc
+                - name: RFICDTC
+                  operator: empty
+        - all:
+            - name: DSSTDTC
+              operator: empty
+            - name: RFICDTC
+              operator: non_empty
 Core:
   Id: CORE-000370
   Status: Published

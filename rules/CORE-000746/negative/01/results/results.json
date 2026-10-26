@@ -5,7 +5,7 @@
       "domain": "DM",
       "execution_status": "success",
       "execution_message": "Ethnicity Term 'Spanish origin' (SUPPDM.CETHNIC) is collected but is not mapped as ETHNIC = HISPANIC OR LATINO.",
-      "number_errors": 2,
+      "number_errors": 3,
       "errors": [
         {
           "row": 2,
@@ -15,7 +15,7 @@
             "ETHNIC": "LATINO",
             "CETHNIC": "SPANISH ORIGIN"
           },
-          "validated": false
+          "validated": true
         },
         {
           "row": 3,
@@ -25,7 +25,17 @@
             "ETHNIC": "NOT HISPANIC",
             "CETHNIC": "SPANISH ORIGIN"
           },
-          "validated": false
+          "validated": true
+        },
+        {
+          "row": 5,
+          "SEQ": null,
+          "USUBJID": "S005",
+          "value": {
+            "ETHNIC": null,
+            "CETHNIC": "SPANISH ORIGIN"
+          },
+          "validated": true
         }
       ]
     },

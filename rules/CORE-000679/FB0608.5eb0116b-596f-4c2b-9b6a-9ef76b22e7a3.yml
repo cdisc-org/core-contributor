@@ -59,10 +59,6 @@ Core:
   Version: '1'
 Description: Raise an error when DTHFL is equal to 'Y' in the DM dataset but a record where DSDECOD is equal to 'DEATH' is not present in the DS dataset for the corresponding subject.
 Executability: Fully Executable
-Match Datasets:
-  - Keys:
-      - USUBJID
-    Name: DM
 Operations:
   - domain: DS
     filter:
