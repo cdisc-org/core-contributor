@@ -6,7 +6,7 @@ from typing import List, Optional, Dict
 import openpyxl
 from openpyxl.styles import Font, PatternFill
 
-SDTM_RULES_DIR = Path("rules")
+SDTM_RULES_DIR = Path("sdtm_rules")
 ADAM_RULES_DIR = Path("adam_rules")
 
 BOLD_FONT = Font(bold=True)

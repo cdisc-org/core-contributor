@@ -115,7 +115,7 @@ _Step 4 is only applicable in case you want to create a rule for which the folde
    - It will prompt you a few times.
      - If the new-rule folder already exists, it will check you definitely want to make a new one. (NOTE: If the empty folder is a leftover from a previous branch, which is likely, you SHOULD run the script and overwrite the folder to make a new one, as this will set-up the template properly for you).
      - You will also be prompted to enter the number of positive and negative test cases you want to create. Don't worry if you realise you need more later. You can easily add more manually.
-   - This will create a rules/NEW-RULE folder with all necessary subdirectories and template files.
+   - This will create a `<standard>_rules/NEW-RULE` folder (`sdtm_rules/NEW-RULE` or `adam_rules/NEW-RULE`, depending on the rules directory you choose) with all necessary subdirectories and template files.
    - The NEW-RULE folder should NOT be renamed. It will receive its final name after the PR has been approved.
 
 **Write or Edit Rule.**

@@ -207,8 +207,8 @@ marimo/_static/
 marimo/_lsp/
 __marimo__/
 
-# all results.txt in rules/*/*/*/results/
-rules/*/*/*/results/results.txt
+# all results.txt in sdtm_rules/*/*/*/results/
+sdtm_rules/*/*/*/results/results.txt
 adam_rules/**/results.txt
 
 # DS_Store
