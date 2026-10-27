@@ -62,12 +62,17 @@ Check:
   all:
     - name: --REPNUM
       operator: exists
-    - name: $record_count_per_subject_test_timing
-      operator: greater_than
-      value: 1      
     - any:
-        - name: --REPNUM
-          operator: empty
+        - all:
+            - name: --REPNUM
+              operator: empty
+            - name: USUBJID
+              operator: is_not_unique_set
+              value:
+                - --TESTCD
+                - VISITNUM
+                - --TPTNUM
+                - --TPTREF
         - name: --REPNUM
           operator: is_not_unique_set
           value:
@@ -85,9 +90,6 @@ Description: Raise an error when REPNUM is present and there are multiple
  timing variables on the record, and --REPNUM is null or not unique per 
  subject per test per timing variables.
 Executability: Fully Executable
-Operations:
-  - id: $record_count_per_subject_test_timing
-    operator: record_count
 Outcome:
   Message: --REPNUM must not be null and must be unique per subject per test 
    per timing variables.

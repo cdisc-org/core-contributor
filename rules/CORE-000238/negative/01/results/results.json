@@ -5,7 +5,7 @@
       "domain": "DM",
       "execution_status": "success",
       "execution_message": "RFXENDTC does not equal the latest value of EXSTDTC or EXENDTC in the EX dataset.",
-      "number_errors": 3,
+      "number_errors": 4,
       "errors": [
         {
           "row": 1,
@@ -37,6 +37,17 @@
             "RFXENDTC": null,
             "$max_ex_exstdtc": "2014-01-10",
             "$max_ex_exendtc": "2014-01-20"
+          },
+          "validated": true
+        },
+        {
+          "row": 4,
+          "SEQ": null,
+          "USUBJID": "GUARD-NO-EXEN",
+          "value": {
+            "RFXENDTC": "2014-01-15",
+            "$max_ex_exstdtc": "2014-01-10",
+            "$max_ex_exendtc": null
           },
           "validated": true
         }

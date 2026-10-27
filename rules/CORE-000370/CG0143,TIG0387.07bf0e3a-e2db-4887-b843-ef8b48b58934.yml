@@ -98,7 +98,7 @@ Check:
     - any:
         - all:
             - name: $min_ds_dsstdtc
-              operator: equal_to
+              operator: date_equal_to
               value: DSSTDTC
             - any:
                 - name: RFICDTC
