@@ -50,39 +50,36 @@ Check:
       operator: equal_to
       value: Y
       value_is_literal: true
-    - name: $ds_dsdecod
-      operator: does_not_contain
-      value: DEATH
-      value_is_literal: true
+    - name: $ds_death_count
+      operator: equal_to
+      value: 0
 Core:
   Id: CORE-000679
   Status: Published
   Version: '1'
 Description: Raise an error when DTHFL is equal to 'Y' in the DM dataset but a record where DSDECOD is equal to 'DEATH' is not present in the DS dataset for the corresponding subject.
 Executability: Fully Executable
-Match Datasets:
-  - Keys:
-      - USUBJID
-    Name: DM
 Operations:
   - domain: DS
+    filter:
+      DSDECOD: DEATH
     group:
       - USUBJID
-    id: $ds_dsdecod
+    id: $ds_death_count
     name: DSDECOD
-    operator: distinct
+    operator: record_count
 Outcome:
   Message: DTHFL in DM dataset is 'Y' but a record is missing in DS dataset where DSDECOD = 'DEATH'.
   Output Variables:
     - USUBJID
     - DTHFL
-    - $ds_dsdecod
+    - $ds_death_count
 Rule Type: Record Data
 Scope:
   Classes:
     Include:
-      - EVENTS
+      - SPECIAL PURPOSE
   Domains:
     Include:
-      - DS
-Sensitivity: Dataset
+      - DM
+Sensitivity: Record

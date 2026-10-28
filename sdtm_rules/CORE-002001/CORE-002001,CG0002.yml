@@ -77,8 +77,8 @@ Outcome:
 Rule Type: Value Check against Define XML Variable
 Scope:
   Classes:
-    Include:
-      - ALL
+    Exclude:
+      - TRIAL DESIGN
   Domains:
     Include:
       - ALL

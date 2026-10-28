@@ -5,7 +5,7 @@
       "domain": "TS",
       "execution_status": "success",
       "execution_message": "When TSVCDREF is equal to 'CDISC' then TSVCDVER must be a valid published version (date).",
-      "number_errors": 1,
+      "number_errors": 2,
       "errors": [
         {
           "row": 2,
@@ -14,6 +14,16 @@
           "value": {
             "TSVCDVER": "2021-03-27",
             "TSVCDREF": "CDISC"
+          },
+          "validated": true
+        },
+        {
+          "row": 13,
+          "SEQ": 1,
+          "USUBJID": "None",
+          "value": {
+            "TSVCDVER": "2025-13-45",
+            "TSVCDREF": "CDISC CT"
           },
           "validated": true
         }

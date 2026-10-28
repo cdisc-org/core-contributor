@@ -134,13 +134,13 @@ Core:
   Status: Published
   Version: '1'
 Description: All trial design model datasets as listed in the corresponding IG are present in the submission.
-Executability: Fully Executable
+Executability: Partially Executable - Possible Overreporting
 Outcome:
   Message: At least one Trial Design Dataset is missing.
   Output Variables:
     - $missing_trial_design_domains
 Rule Type: Record Data
-Operations: 
+Operations:
   - operator: standard_domains
     id: $trial_design_domains
     domain_class: 'TRIAL DESIGN'
