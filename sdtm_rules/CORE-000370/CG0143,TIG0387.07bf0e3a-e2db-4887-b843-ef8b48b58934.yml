@@ -111,6 +111,8 @@ Check:
               operator: empty
             - name: RFICDTC
               operator: non_empty
+            - name: $min_consent_dsstdtc
+              operator: empty
 Core:
   Id: CORE-000370
   Status: Published
@@ -127,6 +129,14 @@ Operations:
     group:
       - USUBJID
     id: $min_ds_dsstdtc
+    name: DSSTDTC
+    operator: min_date
+  - domain: DS
+    filter:
+      DSDECOD: INFORMED CONSENT OBTAINED
+    group:
+      - USUBJID
+    id: $min_consent_dsstdtc
     name: DSSTDTC
     operator: min_date
 Outcome:
