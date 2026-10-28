@@ -3,7 +3,7 @@ name: Add Reviewers
 on:
   pull_request:
     paths:
-      - 'rules/**'
+      - 'sdtm_rules/**'
     types: [opened, ready_for_review]
 
 permissions:

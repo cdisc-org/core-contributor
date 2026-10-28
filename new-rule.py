@@ -10,7 +10,7 @@ import csv
 from pathlib import Path
 import openpyxl
 
-SDTM_RULES_DIR = Path("rules")
+SDTM_RULES_DIR = Path("sdtm_rules")
 ADAM_RULES_DIR = Path("adam_rules")
 PLACEHOLDER_RULE_ID = "NEW-RULE"
 

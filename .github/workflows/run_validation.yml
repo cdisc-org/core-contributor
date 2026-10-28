@@ -3,7 +3,7 @@ name: Validate Rule Contributions
 on:
   pull_request:
     paths:
-      - 'rules/**'
+      - 'sdtm_rules/**'
     types: [opened, synchronize, reopened, edited]
 
 jobs:
@@ -49,7 +49,7 @@ jobs:
       - name: Detect changed rules
         id: changed-rules
         run: |
-          CHANGED_RULES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -E '^(rules/(CORE-|NEW-RULE)|adam_rules/(AD|NEW-RULE))' | cut -d'/' -f1,2 | sort -u)
+          CHANGED_RULES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -E '^(sdtm_rules/(CORE-|NEW-RULE)|adam_rules/(AD|NEW-RULE))' | cut -d'/' -f1,2 | sort -u)
           
           if [ -z "$CHANGED_RULES" ]; then
             echo "No rule changes detected"
