@@ -1,6 +1,6 @@
 # Variable: 
 # Condition: Variable is a text variable
-# Rule: Value does not start with a leading space
+# Rule: Value does not only contain a period character
 # verified
 Authorities:
   - Organization: FDA

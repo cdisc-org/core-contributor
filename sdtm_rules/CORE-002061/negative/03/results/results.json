@@ -1,0 +1,33 @@
+{
+  "datasets": [
+    {
+      "dataset": "sv.xpt",
+      "domain": "SV",
+      "execution_status": "success",
+      "execution_message": "Variable length is different between datasets and/or is longer than the maximum length of the actual data contained by the variable.",
+      "number_errors": 1,
+      "errors": [
+        {
+          "row": 12,
+          "SEQ": null,
+          "USUBJID": "None",
+          "value": {
+            "variable_name": "SVUPDES",
+            "$max_variable_value_length": 0.0,
+            "$global_min_variable_length": 9.0,
+            "$global_max_variable_length": 9.0
+          },
+          "validated": true
+        }
+      ]
+    },
+    {
+      "dataset": "",
+      "domain": "TV",
+      "execution_status": "success",
+      "execution_message": "Variable length is different between datasets and/or is longer than the maximum length of the actual data contained by the variable.",
+      "number_errors": 0,
+      "errors": []
+    }
+  ]
+}

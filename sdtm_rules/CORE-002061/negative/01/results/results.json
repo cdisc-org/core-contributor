@@ -5,7 +5,7 @@
       "domain": "SV",
       "execution_status": "success",
       "execution_message": "Variable length is different between datasets and/or is longer than the maximum length of the actual data contained by the variable.",
-      "number_errors": 4,
+      "number_errors": 3,
       "errors": [
         {
           "row": 1,
@@ -40,18 +40,6 @@
             "$max_variable_value_length": 10.0,
             "$global_min_variable_length": 8.0,
             "$global_max_variable_length": 8.0
-          },
-          "validated": true
-        },
-        {
-          "row": 11,
-          "SEQ": null,
-          "USUBJID": "None",
-          "value": {
-            "variable_name": "SVENDY",
-            "$max_variable_value_length": 2.0,
-            "$global_min_variable_length": 1.0,
-            "$global_max_variable_length": 1.0
           },
           "validated": true
         }

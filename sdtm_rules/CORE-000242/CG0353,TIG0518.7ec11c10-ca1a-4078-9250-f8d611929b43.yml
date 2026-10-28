@@ -82,4 +82,5 @@ Scope:
   Domains:
     Include:
       - ALL
+  Use Case: INDH, PROD
 Sensitivity: Dataset

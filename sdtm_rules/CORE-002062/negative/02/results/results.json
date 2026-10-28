@@ -1,0 +1,32 @@
+{
+  "datasets": [
+    {
+      "dataset": "relrec.xpt",
+      "domain": "RELREC",
+      "execution_status": "success",
+      "execution_message": null,
+      "number_errors": 0,
+      "errors": []
+    },
+    {
+      "dataset": "suppae.xpt",
+      "domain": "SUPPAE",
+      "execution_status": "success",
+      "execution_message": "Variable length is longer than the maximum length of the actual data contained by the variable.",
+      "number_errors": 1,
+      "errors": [
+        {
+          "row": 10,
+          "SEQ": null,
+          "USUBJID": "None",
+          "value": {
+            "variable_name": "QEVAL",
+            "$max_variable_value_length": 0.0,
+            "variable_length": 22.0
+          },
+          "validated": true
+        }
+      ]
+    }
+  ]
+}

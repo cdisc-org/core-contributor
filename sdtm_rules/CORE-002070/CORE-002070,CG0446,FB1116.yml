@@ -80,6 +80,8 @@ Check:
       value: COMPTRT
       value_is_literal: true
     - name: TSVALCD
+      operator: non_empty
+    - name: TSVALCD
       operator: is_not_valid_unii_code_reference
 Core:
   Id: CORE-002070

@@ -1,6 +1,6 @@
 # Variable: TSPARMCD
 # Condition:
-# Rule: TSVALCD when TSPARMCD = FCNTRY is a valid 3-letter country code.
+# Rule: TSVAL when TSPARMCD = FCNTRY is a valid 3-letter country code.
 # verified
 Authorities:
   - Organization: FDA

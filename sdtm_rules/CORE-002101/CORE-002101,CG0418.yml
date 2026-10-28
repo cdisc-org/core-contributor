@@ -51,11 +51,15 @@ Check:
         - name: TAETORD
           operator: exists
         - name: TAETORD
+          operator: non_empty
+        - name: TAETORD
           operator: is_not_contained_by
           value: $ta_taetord_for_arm
     - all:
         - name: TAETORD
           operator: exists
+        - name: TAETORD
+          operator: non_empty
         - name: TAETORD
           operator: is_not_ordered_set
           value:
