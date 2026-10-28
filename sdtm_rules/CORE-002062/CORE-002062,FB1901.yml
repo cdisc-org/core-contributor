@@ -137,9 +137,28 @@ Authorities:
         Version: '1.0'
 Check:
   all:
-    - name: variable_length
-      operator: greater_than
-      value: $max_variable_value_length
+    - name: variable_data_type
+      operator: equal_to
+      value: Char
+      value_is_literal: true
+    - any:
+        - all:
+            - name: $max_variable_value_length
+              operator: greater_than
+              value: 0
+            - name: variable_length
+              operator: greater_than
+              value: $max_variable_value_length
+        - all:
+            - any:
+                - name: $max_variable_value_length
+                  operator: equal_to
+                  value: 0
+                - name: $max_variable_value_length
+                  operator: empty
+            - name: variable_length
+              operator: greater_than
+              value: 1
 Core:
   Id: CORE-002062
   Status: Published

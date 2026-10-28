@@ -76,10 +76,10 @@ Check:
       value: INFORMED CONSENT OBTAINED
       value_is_literal: true
     - name: $min_ds_dsstdtc
-      operator: not_equal_to
+      operator: date_not_equal_to
       value: RFICDTC
     - name: $min_ds_dsstdtc
-      operator: equal_to
+      operator: date_equal_to
       value: DSSTDTC
 Core:
   Id: CORE-000363

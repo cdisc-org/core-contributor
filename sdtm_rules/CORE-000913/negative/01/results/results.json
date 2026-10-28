@@ -13,7 +13,7 @@
       "domain": "DS",
       "execution_status": "success",
       "execution_message": "DSSTDTC for DEATH record in DS dataset is not equal to DTHDTC in the DM dataset.",
-      "number_errors": 3,
+      "number_errors": 4,
       "errors": [
         {
           "row": 1,
@@ -45,6 +45,17 @@
             "DSDECOD": "DEATH",
             "DSSTDTC": "2006-05-01",
             "DTHDTC": null
+          },
+          "validated": true
+        },
+        {
+          "row": 4,
+          "SEQ": null,
+          "USUBJID": "GUARD-NONISO",
+          "value": {
+            "DSDECOD": "DEATH",
+            "DSSTDTC": "04MAR2019",
+            "DTHDTC": "2019-03-04"
           },
           "validated": true
         }

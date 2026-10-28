@@ -25,8 +25,10 @@ Check:
   all:
     - name: --DECOD
       operator: non_empty
+    - name: RELREC.FAOBJ
+      operator: non_empty
     - name: --DECOD
-      operator: not_equal_to
+      operator: not_equal_to_case_insensitive
       value: RELREC.FAOBJ
 Core:
   Id: CORE-000767

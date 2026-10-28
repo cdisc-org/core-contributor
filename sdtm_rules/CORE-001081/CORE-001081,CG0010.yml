@@ -55,6 +55,8 @@ Check:
     - name: define_variable_name
       operator: non_empty
     - name: define_variable_role
+      operator: non_empty
+    - name: define_variable_role
       operator: not_equal_to
       value: library_variable_role
 Core:
