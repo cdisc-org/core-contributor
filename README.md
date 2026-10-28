@@ -71,13 +71,15 @@ _You may need your IT support team to install some of the following software for
         - MAC: Code → Settings → Settings 
     - Click the `Edit in settings.json` option under Yaml: Schemas 
     - Paste the following into "yaml.schemas": 
-              `"https://rule-editor.cdisc.org/api/schema": "/*.yml"` 
+              `"./engine/resources/schema/CORE-base.json": "/*.yml"` 
     - The result should look like this (if there are other settings in the file, keep them, and make sure there is a comma between each setting and the next one): 
       ```json
       "yaml.schemas": {
-          "https://rule-editor.cdisc.org/api/schema": "/*.yml"
+          "./engine/resources/schema/CORE-base.json": "/*.yml"
       }
       ```
+    - This points to the rule schema of the engine in this repository, so the validation always matches the operators and operations the engine supports, and it is updated whenever you update the engine (step 1 of the Rule Authoring process). The path is relative to the folder open in VSCode, so open the `core-contributor` folder (step 7).
+    - If you set this up before with `"https://rule-editor.cdisc.org/api/schema"`, replace that line with the one above: the CDISC schema flags some operators that this engine supports as errors.
     - Save the `settings.json` 
     - There you go! You should now see schema validation in yaml files. If you don't see this behaviour after a few seconds, try restarting VSCode
 
@@ -124,7 +126,7 @@ _Don't forget: whenever you type a command, you should be in the core-contributo
 **Set-up Rule Folder.**
 
 **_*IMPORTANT NOTE*_**\
-_Step 4 is only applicable in case you want to create a rule for which the folder does not exist yet in the GitHub repository. It is therefore important to first check if a folder is already present. If no folder is present, you can automatically generate the required folder structure for a new rule including a blank YAML template and template Excel files (negative and positive) for the test data._
+_Step 4 is only applicable in case you want to create a rule for which the folder does not exist yet in the GitHub repository. It is therefore important to first check if a folder is already present: existing SDTM rules are in the `sdtm_rules` folder and ADaM rules in the `adam_rules` folder, each in a folder named after its CORE ID (eg `sdtm_rules/CORE-000001`). If no folder is present, you can automatically generate the required folder structure for a new rule including a blank YAML template and template Excel files (negative and positive) for the test data._
 
 4) Initialize your new rule folder structure:
    - In the base directory of the project, activate the virtual environment by running:
@@ -133,18 +135,20 @@ _Step 4 is only applicable in case you want to create a rule for which the folde
    - Then run the following command in your terminal: \
        `python new-rule.py`
    - It will prompt you a few times.
-     - It will ask which rules directory to use (`sdtm` for `rules/`, `adam` for `adam_rules/`), whether the rule is part of a bundled rule structure sharing test cases (for a single new rule, answer `n`) and whether you want the test cases in CSV or XLSX format (the steps below assume XLSX).
+     - It will ask which rules directory to use (`sdtm` for `sdtm_rules/`, `adam` for `adam_rules/`), whether the rule is part of a bundled rule structure sharing test cases (for a single new rule, answer `n`) and whether you want the test cases in CSV or XLSX format (the steps below assume XLSX).
      - If the NEW-RULE folder already exists, it will check you definitely want to make a new one. (NOTE: If the empty folder is a leftover from a previous branch, which is likely, you SHOULD run the script and overwrite the folder to make a new one, as this will set-up the template properly for you).
      - You will also be prompted to enter the number of positive and negative test cases you want to create. Don't worry if you realise you need more later. You can easily add more manually.
-   - This will create a `rules/NEW-RULE` folder with all necessary subdirectories and template files (eg `new-rule.yml` and `positive/01/data/new-rule-positive-01.xlsx`).
-   - The NEW-RULE folder should NOT be renamed. It will receive its final name after the PR has been merged.
+   - This will create a `sdtm_rules/NEW-RULE` folder (or `adam_rules/NEW-RULE` for ADaM) with all necessary subdirectories and template files (eg `new-rule.yml` and `positive/01/data/new-rule-positive-01.xlsx`).
+   - For SDTM rules, the NEW-RULE folder should NOT be renamed: it will receive its final name after the PR has been merged (see step 16). ADaM rules are named manually.
 
 **Write or Edit Rule.**
 
 5) Edit a rule as desired:
+   - The rule is the `.yml` file in the rule's folder (eg `sdtm_rules/NEW-RULE/new-rule.yml` for a new rule). Open it from the VSCode file explorer.
    - Ensure that you save any changes (File → Save, or Ctrl/Cmd + S)
      
 6) Create test data as desired:
+   - Each test case is a numbered folder in the rule's `positive` or `negative` folder (eg `sdtm_rules/NEW-RULE/negative/01`), and its test data is the `.xlsx` file in that test case's `data` folder. Open it from the VSCode file explorer: it opens in the XLSX Editor installed in step 11 of the setup.
    - Ensure that positive test data are created (= no data issues expected to be flagged for that particular rule).
    - Ensure that negative test data are created (= data issues expected to be flagged for that particular rule).
    - Each dataset is a separate sheet named after the dataset (eg `cm.xpt`) and listed in the `Datasets` sheet. Row 1 holds the variable names, rows 2 - 4 hold the metadata (label, type, length) and the data starts from row 5. The `Library` sheet holds the standard and version (eg `sdtmig`, `3-4`) the rule is tested against.
@@ -173,12 +177,12 @@ _Step 4 is only applicable in case you want to create a rule for which the folde
    MAC: `./run/bash_run.sh` 
    - If you haven't run the setup script before, don't worry; it will run automatically when you execute this command.
    - You will be prompted to select the rule you wish to run (eg `NEW-RULE`), as well as the test case(s).
-   - This runs the rules in the `rules` folder. To run ADaM rules (`adam_rules` folder), see [Advanced Usage](#advanced-usage).
+   - This runs the rules in the `sdtm_rules` folder. To run ADaM rules (`adam_rules` folder), see [Advanced Usage](#advanced-usage).
 
 **Verify Results.**
      
 8) Check your run results in the `results` folder.
-   - Note that there is a separate `results` folder for each test case (eg `rules/NEW-RULE/negative/01/results`), which contains only the information relevant to that particular case.
+   - Note that there is a separate `results` folder for each test case (eg `sdtm_rules/NEW-RULE/negative/01/results`), which contains only the information relevant to that particular case.
    - There will be a `results.json` file, with the code-produced rule output, and a `results.txt` file, which will summarise your results in a more human-readable format. Feel free to examine both.
    - Once you've run the rule, check to make sure there are no issues mentioned in the rule output - if the highlighting or validation in the validation sheet hasn't been done correctly, you will see an `***ISSUES***` section in `results.txt` (and `unvalidated_highlights`, `unhighlighted_validations` or `unmatched_validation` entries in `results.json`), and you can correct them.
    - Ideally you see no issues, and `"validated": true` for every error in the negative test case results (shown as `Fully Validated in Test Case: Yes` in `results.txt`). 
@@ -212,7 +216,7 @@ _Note that if the rule or test data is wrong (and you're getting unexpected erro
 
 **Approval - Merge PR**
 
-16) Once your PR is approved, merge your changes to the source code. If you created a new rule in your PR, a new CORE-id will be assigned to it automatically (the NEW-RULE folder and files are renamed).
+16) Once your PR is approved, merge your changes to the source code. If you created a new SDTM rule in your PR, a new CORE-id will be assigned to it automatically (the `sdtm_rules/NEW-RULE` folder and files are renamed). For the time being, this only happens for SDTM rules: ADaM rules are named manually.
 
 **Let's do another rule!**    
 
