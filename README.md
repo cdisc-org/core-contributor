@@ -1,4 +1,4 @@
-**NOTE: ANY ISSUES WITH THE RULES IN THIS REPOSITORY SHOULD BE DIRECTED TOWARDS THE PARENT REPO OF THIS FORK** \
+**NOTE: ANY ISSUES WITH THE RULES IN THIS REPOSITORY SHOULD BE DIRECTED TOWARDS THE [PARENT REPO](https://github.com/verisianHQ/core-contributor) OF THIS FORK** 
 
 # core-contributor
 Contribution framework for rule storage, rule authoring and test data creation with automated regression testing. Create and/or edit rules and test data, then validate against the PostgreSQL-based CORE engine.
